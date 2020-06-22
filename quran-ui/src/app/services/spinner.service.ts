@@ -1,13 +1,12 @@
 import { Injectable } from "@angular/core";
-import { MatSpinner } from '@angular/material/progress-spinner';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class SpinnerService {
-    taskCompleted = true;
-    constructor(private _spinner: MatSpinner){}
-    async run(task) {
-        this.taskCompleted = false;
-        await task;
-        this.taskCompleted = true;
+    public spinnerCounter: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
+    displaySpinner(value: boolean) {
+      let counter = value ? this.spinnerCounter.value + 1 : this.spinnerCounter.value - 1;
+      this.spinnerCounter.next(counter);
     }
 }
