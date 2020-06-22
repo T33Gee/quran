@@ -10,7 +10,7 @@ import { ApiService } from 'src/app/services/backend/api-service-base';
 })
 export class LoginComponent implements OnInit {
   
-  showSignUp = false;
+  hideSignup = true;
   signupForm: FormGroup;
   signinForm: FormGroup;
 
@@ -39,5 +39,9 @@ export class LoginComponent implements OnInit {
 
   signUp() {
     console.log("signup")
+  }
+  toggleShowSignUp(val) {
+    console.log(val);
+    this.hideSignup = val
   }
 }
