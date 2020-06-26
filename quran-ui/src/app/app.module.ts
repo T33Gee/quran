@@ -10,13 +10,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 import { SpinnerService } from './services/spinner.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ApiService } from './services/backend/api-service-base';
+import { TransportService } from './services/backend/transport.service';
+import { LoginService } from './services/backend/login.service';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { ApiService } from './services/backend/api-service-base';
   ],
   providers: [
     SpinnerService,
-    ApiService
+    TransportService,
+    LoginService
   ],
   bootstrap: [AppComponent]
 })

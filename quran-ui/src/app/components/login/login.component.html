@@ -1,6 +1,6 @@
-<div class="container-fluid mt-3 mb-5" style="width:max-content;height: max-content;">
-  <!-- <section style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/90.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;"> -->
-    <section style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/90.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;width:100%!;height:100%">
+<div class="container-fluid mt-3 mb-5" >
+  <div class="row">
+    <section style="background-image: url('./../../assets/images/login-background.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;width:100%">
     <div class="mask d-flex justify-content-center align-items-center">
       <div class="container py-5 my-5">
         <h3 class="font-weight-bold text-center white-text pb-2">Welcome</h3>
@@ -10,20 +10,22 @@
             <div class="card">
               <form [formGroup]="signupForm" [hidden]="hideSignup">
                 <div class="card-body z-depth-2 px-4">
+                  <p class="alert alert-danger" *ngIf="messages.errorSignupMessage">Error while signing up</p>
+                  <p class="alert alert-danger" *ngIf="!signupForm.pristine && signupForm.status === 'INVALID'">Please fill in all the fields</p>
                   <div class="md-form mt-3">
-                    <i class="fa fa-user prefix grey-text"></i>
+                    <i class="fa fa-user prefix"></i>
+                    <!-- <label for="form3">Your username</label> -->
                     <input type="text" id="form3" class="form-control" formControlName="signupUsername">
-                    <label for="form3">Your username</label>
                   </div>
                   <div class="md-form">
-                    <i class="fa fa-envelope prefix grey-text"></i>
+                    <i class="fa fa-envelope prefix"></i>
+                    <!-- <label for="form2">Your email</label> -->
                     <input type="text" id="form2" class="form-control" formControlName="signupEmail">
-                    <label for="form2">Your email</label>
                   </div>
                   <div class="md-form">
-                    <i class="fas fa-key prefix grey-text"></i>
+                    <i class="fas fa-key prefix"></i>
                     <input type="text" id="form4" class="form-control" formControlName="signupPassword">
-                    <label for="form4">Your password</label>
+                    <!-- <label for="form4">Your password</label> -->
                   </div>
                   <div class="text-center my-3">
                     <button class="btn btn-indigo btn-block" (click)="signUp()">Signup</button>
@@ -35,15 +37,18 @@
               </form>
               <form [formGroup]="signinForm" [hidden]="!hideSignup">
                 <div class="card-body z-depth-2 px-4">
+                  <p class="alert alert-success" *ngIf="messages.successSignupMessage">Success! Please signin</p>
+                  <p class="alert alert-danger" *ngIf="messages.errorSigninMessage">Error! Could not Login</p>
+                  <p class="alert alert-danger" *ngIf="!signinForm.pristine && signinForm.status === 'INVALID'">Please fill in all the fields. Make sure you've used a valid email address</p>
                   <div class="md-form mt-3">
-                    <i class="fa fa-user prefix grey-text"></i>
+                    <i class="fa fa-user prefix"></i>
                     <input type="text" id="form3" class="form-control" formControlName="signinEmail">
-                    <label for="form3">Your username or email</label>
+                    <!-- <label for="form3">Your username or email</label> -->
                   </div>
                   <div class="md-form">
-                    <i class="fas fa-key prefix grey-text"></i>
-                    <input type="text" id="form4" class="form-control" formControlName="signinPassword">
-                    <label for="form4">Your password</label>
+                    <i class="fas fa-key prefix"></i>
+                    <input type="password" id="form4" class="form-control" formControlName="signinPassword">
+                    <!-- <label for="form4" [hidden]="signinForm.get("signinPassword")">Your password</label> -->
                   </div>
                   <div class="text-center my-3">
                     <button class="btn btn-indigo btn-block" (click)="signIn()">Sign In</button>
@@ -59,4 +64,5 @@
         </div>
       </div>
     </section>
+  </div>
   </div>

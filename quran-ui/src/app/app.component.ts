@@ -16,13 +16,6 @@ export class AppComponent implements OnInit, OnDestroy {
     
   }
   async ngOnInit() {
-    this.spinnerSubscription = this.spinner.spinnerCounter.subscribe((counter: number) => {
-      this.displaySpinner = counter != 0;
-    });
-    console.log("hey");
-    this._http.get('http://localhost/Quran/api/index.php/welcome/sayHi').subscribe(res => {
-      console.log(res);
-    });
   }
   ngOnDestroy() {
     this.spinnerSubscription.unsubscribe();

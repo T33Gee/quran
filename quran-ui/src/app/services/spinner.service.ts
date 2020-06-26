@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class SpinnerService {
-    public spinnerCounter: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+    public isLoading = new BehaviorSubject(false);
 
     displaySpinner(value: boolean) {
-      let counter = value ? this.spinnerCounter.value + 1 : this.spinnerCounter.value - 1;
-      this.spinnerCounter.next(counter);
+      this.isLoading.next(value);
     }
 }

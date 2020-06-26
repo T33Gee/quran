@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { ApiService } from 'src/app/services/backend/api-service-base';
+import { TransportService } from 'src/app/services/backend/transport.service';
+import { LoginService } from 'src/app/services/backend/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,37 +13,65 @@ import { ApiService } from 'src/app/services/backend/api-service-base';
 export class LoginComponent implements OnInit {
   
   hideSignup = true;
+  messages = {
+    successSignupMessage: false,
+    errorSignupMessage: false,
+    errorSigninMessage: false
+  }
   signupForm: FormGroup;
   signinForm: FormGroup;
 
-  constructor(private api: ApiService, private fb:FormBuilder, private spinner: SpinnerService) { }
+  constructor(private api: LoginService,
+              private fb:FormBuilder, 
+              private spinner: SpinnerService,
+              private router: Router
+              ) { }
   
   ngOnInit(): void {
     this.signupForm = this.fb.group({
-      signupUsername: ['', Validators.required],
-      signupEmail: ['', Validators.required],
-      signupPassword: ['', Validators.required],
+      signupUsername: [null, Validators.required],
+      signupEmail: [null, Validators.required],
+      signupPassword: [null, Validators.required],
 
-    }) 
+    });
+
     this.signinForm = this.fb.group({
-      signinEmail: ['', Validators.required],
-      signinPassword: ['', Validators.required]
+      signinEmail: [null, Validators.required],
+      signinPassword: [null, Validators.required]
     });
     
     this.spinner.displaySpinner(true);
     setTimeout(() => { this.spinner.displaySpinner(false); }, 1000);
   }
 
-  async signIn() {
-    const res = await this.api.get("Login/attemptLogin")
-    console.log(res)
+  resetMessages() {
+    this.messages = {
+      successSignupMessage: false,
+      errorSignupMessage: false,
+      errorSigninMessage: false
+    }
   }
 
-  signUp() {
-    console.log("signup")
+  async signIn() {
+    const success = await (await this.api.signIn("user1","pass1")).success;
+    success ? this.router.navigate(['home']) : this.messages.errorSigninMessage = true;
   }
+
+  async signUp() {
+    const success = await (await this.api.signUp({userId:1,username:"user 1",password:"123",email:"e@mail.com"})).success;
+    if(success) {
+      this.resetMessages()
+      this.messages.successSignupMessage = true;
+      this.hideSignup = true;
+    }
+    else {
+      this.resetMessages()
+      this.messages.errorSignupMessage = true;
+    }
+  }
+
   toggleShowSignUp(val) {
-    console.log(val);
     this.hideSignup = val
+    this.resetMessages();
   }
 }
