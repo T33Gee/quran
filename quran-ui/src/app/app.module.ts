@@ -14,7 +14,10 @@ import { TransportService } from './services/backend/transport.service';
 import { LoginService } from './services/backend/login.service';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
-
+import { MatCardModule } from '@angular/material/card';
+import { CardComponent } from './components/shared/card/card/card.component'
+import { SessionService } from './services/session.service';
+import { UserService } from './services/backend/user.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
     LoginComponent,
     SpinnerComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
@@ -33,12 +37,14 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    
+    MatCardModule
   ],
   providers: [
     SpinnerService,
+    SessionService,
     TransportService,
-    LoginService
+    LoginService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
