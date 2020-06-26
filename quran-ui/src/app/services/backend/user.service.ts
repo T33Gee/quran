@@ -3,7 +3,7 @@ import { TransportService } from './transport.service';
 import { User } from 'src/app/models/api-models/user.model';
 import { Group, GroupPrivacyEnum } from 'src/app/models/api-models/groups.model';
 
-Injectable()
+@Injectable()
 export class UserService {
     constructor(private transport: TransportService) {}
 
@@ -28,19 +28,43 @@ export class UserService {
             ]
         )
     }
-    getGroupsUserIsIn(userId: number): Promise<Group[]> {
+    getUsersGroups(userId: number): Promise<Group[]> {
        return Promise.resolve(
             [
                 {
                     groupId: 1,
                     groupName: "Group 1",
-                    groupPrivacy: GroupPrivacyEnum.PRIVATE
+                    groupPrivacy: GroupPrivacyEnum.PRIVATE,
+                    groupIntention: "intention 1",
+                    groupOwner: "Owner 1"
                 },
                 {
                     groupId: 2,
                     groupName: "Group 2",
-                    groupPrivacy: GroupPrivacyEnum.PUBLIC
-                }                
+                    groupPrivacy: GroupPrivacyEnum.PUBLIC,
+                    groupIntention: "intention 1",
+                    groupOwner: "Owner 1"
+                },
+                {
+                    groupId: 1,
+                    groupName: "Group 1",
+                    groupPrivacy: GroupPrivacyEnum.PRIVATE,
+                    groupIntention: "intention 1",
+                    groupOwner: "Owner 1"
+                },                {
+                    groupId: 1,
+                    groupName: "Group 1",
+                    groupPrivacy: GroupPrivacyEnum.PRIVATE,
+                    groupIntention: "intention 1",
+                    groupOwner: "Owner 1"
+                },                {
+                    groupId: 1,
+                    groupName: "Group 1",
+                    groupPrivacy: GroupPrivacyEnum.PRIVATE,
+                    groupIntention: "intention 1",
+                    groupOwner: "Owner 1"
+                },
+                
             ]
         )
     }

@@ -1,6 +1,8 @@
 export interface Group {
     groupId: number;
     groupName: string;
+    groupOwner: string;
+    groupIntention: string;
     groupPrivacy: GroupPrivacyEnum;
 }
 
