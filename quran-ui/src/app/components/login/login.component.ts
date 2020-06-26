@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SpinnerService } from 'src/app/services/spinner.service';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { TransportService } from 'src/app/services/backend/transport.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/backend/login.service';
 import { Router } from '@angular/router';
 
