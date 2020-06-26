@@ -13,13 +13,16 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TransportService } from './services/backend/transport.service';
 import { LoginService } from './services/backend/login.service';
 import { HomeComponent } from './components/home/home.component';
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SpinnerComponent,
-    HomeComponent
+    HomeComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
