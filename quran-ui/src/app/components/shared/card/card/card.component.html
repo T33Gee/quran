@@ -13,7 +13,7 @@
       </div>
         <div class="actions">
           <ng-container *ngFor ="let action of actions">
-            <button class="btn btn-success" [routerLink]="['../efforts/1']">{{action.actionText}}</button>
+            <button class="btn btn-success" [routerLink]="[action.actionRoute]">{{action.actionText}}</button>
           </ng-container>
         </div>
        </div>

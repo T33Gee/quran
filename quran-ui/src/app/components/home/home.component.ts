@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     this.groups.forEach(g => {
       this.cardActions.push({
         actionText: "Participate",
-        actionRoute: `efforts/${g.groupId}`
+        actionRoute: `../efforts/${g.groupId}`
       })
     })
   }
