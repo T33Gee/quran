@@ -11,7 +11,11 @@
      <div class="content">
         <p>{{content}}</p>
       </div>
-         <button class="btn btn-rounded btn-success">{{buttonText}}</button>
+        <div class="actions">
+          <ng-container *ngFor ="let action of actions">
+            <button class="btn btn-success" [routerLink]="['../efforts/1']">{{action.actionText}}</button>
+          </ng-container>
+        </div>
        </div>
    </div>
  </div>

@@ -1,7 +1,13 @@
 <div class="container" *ngIf="groups">    
     <div class="row">
         <ng-container *ngFor="let group of groups; let i = index">
-            <app-card [buttonText]="'participate'" [title]="group.groupName" [content]="group.groupIntention" [subtitle]="group.groupOwner"></app-card>
+        <app-card 
+            [title]="group.groupName"
+            [subtitle]="group.groupOwner"
+            [content]="group.groupIntention"
+            [actions]="[cardActions[i]]"
+            >
+        </app-card>
         </ng-container>
     </div>
 </div>

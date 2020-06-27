@@ -18,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 import { CardComponent } from './components/shared/card/card/card.component'
 import { SessionService } from './services/session.service';
 import { UserService } from './services/backend/user.service';
+import { EffortsComponent } from './components/efforts/efforts.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { UserService } from './services/backend/user.service';
     SpinnerComponent,
     HomeComponent,
     NavbarComponent,
-    CardComponent
+    CardComponent,
+    EffortsComponent
   ],
   imports: [
     BrowserModule,
