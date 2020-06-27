@@ -1,0 +1,28 @@
+
+
+<div class="container-fluid">
+    <ng-container  *ngFor="let part of effort.parts; let i = index">
+
+        <mdb-card *ngIf="part.status === KhatamEffortStatusEnum.Read" class="text-white mb-12" bgColor="bg-dark" >
+            <mdb-card-header>
+                {{part.partName}} was read by <button mat-stroked-button color="accent">{{part.user.username}}</button> 
+            </mdb-card-header>
+          </mdb-card>
+
+          <mdb-card *ngIf="part.status === KhatamEffortStatusEnum.Reading" class="text-white mb-12" bgColor="bg-secondary">
+            <mdb-card-header>
+                {{part.partName}} is being read by <button mat-stroked-button color="accent">{{part.user.username}}</button> 
+            </mdb-card-header>
+          </mdb-card>
+
+          <mdb-card *ngIf="part.status === KhatamEffortStatusEnum.Unread" class="text-white mb-12" bgColor="bg-success" >
+            <mdb-card-header>
+                {{part.partName}} is not being read 
+                <!-- <button mdbBtn color="primary" size="sm" role="button" mdbWavesEffect>I will read this</button> -->
+                <button mat-flat-button color="primary">I will read this</button>
+            </mdb-card-header>
+          </mdb-card>
+
+
+    </ng-container>
+</div>

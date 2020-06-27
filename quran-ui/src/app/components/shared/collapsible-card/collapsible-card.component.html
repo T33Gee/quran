@@ -1,0 +1,28 @@
+{{effortType}}
+<div class="container-fluid">
+  <mat-expansion-panel hideToggle color="red">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Effort {{effortType}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <ng-container *ngIf="effortType === EffortTypeEnum.Khatam">Khatam</ng-container>
+        <ng-container *ngIf="effortType === EffortTypeEnum.Surah">Surahs</ng-container>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <ng-content></ng-content>
+  </mat-expansion-panel>
+</div>
+
+
+<!-- <div class="container-fluid">
+  <div class="w-25 p-3">
+    <button mdbBtn color="primary" class="waves-light" type="button" (click)="content.toggle()" mdbWavesEffect>
+      Toggle collapse
+    </button>      
+  </div>
+  
+  <div mdbCollapse [isCollapsed]="true" #content="bs-collapse">
+          <ng-content></ng-content>
+  </div>
+</div> -->

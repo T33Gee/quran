@@ -1,1 +1,8 @@
-<p>efforts works!</p>
+<app-collapsible-card *ngFor="let effort of efforts" [effortType]="effort.effortType">
+    <ng-container *ngIf="effort.effortType === EffortTypeEnum.Surah">
+        <app-surah-effort [chapters]="chapters" [effort]="effort"></app-surah-effort>
+    </ng-container>
+    <ng-container *ngIf="effort.effortType === EffortTypeEnum.Khatam">
+        <app-khatam-effort [parts]="parts" [effort]="effort"></app-khatam-effort>
+    </ng-container>
+</app-collapsible-card>

@@ -19,7 +19,12 @@ import { CardComponent } from './components/shared/card/card/card.component'
 import { SessionService } from './services/session.service';
 import { UserService } from './services/backend/user.service';
 import { EffortsComponent } from './components/efforts/efforts.component';
-
+import { KhatamEffortComponent } from './components/shared/efforts/khatam-effort/khatam-effort.component';
+import { SurahEffortComponent } from './components/shared/efforts/surah-effort/surah-effort.component';
+import { CollapsibleCardComponent } from './components/shared/collapsible-card/collapsible-card.component';
+import { EffortService } from './services/backend/effort.service';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatButtonModule} from '@angular/material/button';  
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,25 +33,31 @@ import { EffortsComponent } from './components/efforts/efforts.component';
     HomeComponent,
     NavbarComponent,
     CardComponent,
-    EffortsComponent
+    EffortsComponent,
+    KhatamEffortComponent,
+    SurahEffortComponent,
+    CollapsibleCardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     MatProgressSpinnerModule,
+    MatExpansionModule,
     MDBBootstrapModule.forRoot(),
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [
     SpinnerService,
     SessionService,
     TransportService,
     LoginService,
-    UserService
+    UserService,
+    EffortService
   ],
   bootstrap: [AppComponent]
 })
