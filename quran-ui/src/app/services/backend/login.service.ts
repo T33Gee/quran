@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
+import { User } from "src/app/models/user.model";
 import { TransportService } from './transport.service';
-import { User } from 'src/app/models/api-models/user.model';
 
 @Injectable()
 export class LoginService {
@@ -16,6 +16,10 @@ export class LoginService {
         return Promise.resolve({
                 success: user? true: false
             });    
+    }
+
+    async validateInviteCode(inviteCode: string): Promise<boolean> {
+        return Promise.resolve(inviteCode === '11111111');    
     }
 
 }

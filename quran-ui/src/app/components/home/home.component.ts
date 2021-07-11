@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Group } from 'src/app/models/groups.model';
 import { UserService } from 'src/app/services/backend/user.service';
-import { Group } from 'src/app/models/api-models/groups.model';
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({

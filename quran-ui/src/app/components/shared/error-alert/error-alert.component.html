@@ -1,0 +1,7 @@
+<ngb-alert *ngIf="!!errorMessage" [type]="'danger'" [dismissible]="true" (close)="closeErrorMessage()">
+    <div class="alert-container">
+        <div class="alert-icon ico-alert-circle"></div>
+        <div class="alert-message multiline">{{errorMessage}}</div>
+    </div>
+</ngb-alert>
+

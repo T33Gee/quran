@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import { Group, GroupPrivacyEnum } from "src/app/models/groups.model";
+import { User } from "src/app/models/user.model";
 import { TransportService } from './transport.service';
-import { User } from 'src/app/models/api-models/user.model';
-import { Group, GroupPrivacyEnum } from 'src/app/models/api-models/groups.model';
 
 @Injectable()
 export class UserService {

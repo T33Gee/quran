@@ -1,0 +1,34 @@
+::ng-deep .is-complete {
+    background-color: rgb(65, 236, 94);
+}
+::ng-deep .is-pending {
+    background-color: rgb(236, 184, 104);
+}
+::ng-deep .is-open {
+    background-color: rgb(255, 255, 255);
+}
+::ng-deep .stats-table {
+    background-color: rgb(255, 255, 255);
+}
+
+.pledge-button {
+    margin-top: -5px;
+}
+
+
+@media screen and (max-width: 800px) {
+    .desktop-hidden {
+      display: initial;
+    }
+    .mobile-hidden {
+      display: none;
+    }
+  }
+  @media screen and (min-width: 800px) {
+    .desktop-hidden {
+      display: none;
+    }
+    .mobile-hidden {
+      display: initial;
+    }
+  }

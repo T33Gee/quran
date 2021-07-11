@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SpinnerService } from 'src/app/services/spinner.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { LoginService } from 'src/app/services/backend/login.service';
 import { Router } from '@angular/router';
+import { Observable, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { RunTaskService } from 'src/app/services/run-task.service';
 
 @Component({
   selector: 'app-login',
@@ -10,67 +12,59 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  
-  hideSignup = true;
-  messages = {
-    successSignupMessage: false,
-    errorSignupMessage: false,
-    errorSigninMessage: false
+  INVITE_CODE_LENGTH = 8;
+  acceptInviteForm: FormGroup;
+  isValidatingCode = false;
+  get inviteCodeControl(): AbstractControl {
+    return this.acceptInviteForm?.get('inviteCode');
   }
-  signupForm: FormGroup;
-  signinForm: FormGroup;
+
+  get inviteCodeValidator(): AsyncValidatorFn {
+      let result = null;
+      return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+        this.isValidatingCode = !this.inviteCodeControl || this.inviteCodeControl.value.length !== 0 
+        return timer(500).pipe(
+          switchMap(async () => {
+          await this.runTaskService.runTask('validating invite code', async () => {
+            var valid = await this.api.validateInviteCode(control.value);            
+            if(valid) {
+              // set the users name field if the name is set in localStorage
+              this.inviteCodeControl.disable();
+            }
+            else {
+              result = {valid: 'Please provide correct code'};
+            } 
+          });
+          this.isValidatingCode = false; 
+          console.log(this.isValidatingCode)
+          return result;
+        }));
+    }
+  }
+
 
   constructor(private api: LoginService,
               private fb:FormBuilder, 
-              private spinner: SpinnerService,
-              private router: Router
+              private router: Router,
+              private runTaskService: RunTaskService
               ) { }
   
   ngOnInit(): void {
-    this.signupForm = this.fb.group({
-      signupUsername: [null, Validators.required],
-      signupEmail: [null, Validators.required],
-      signupPassword: [null, Validators.required],
-
-    });
-
-    this.signinForm = this.fb.group({
-      signinEmail: [null, Validators.required],
-      signinPassword: [null, Validators.required]
+    this.acceptInviteForm = this.fb.group({
+      name: this.fb.control('', [Validators.required, Validators.maxLength(20), /*Validators.pattern()*/]),
+      inviteCode: this.fb.control('', [Validators.maxLength(this.INVITE_CODE_LENGTH), Validators.minLength(this.INVITE_CODE_LENGTH)], [this.inviteCodeValidator]),
+      // emailAddress: this.fb.control('')
     });
     
-    this.spinner.displaySpinner(true);
-    setTimeout(() => { this.spinner.displaySpinner(false); }, 1000);
   }
 
-  resetMessages() {
-    this.messages = {
-      successSignupMessage: false,
-      errorSignupMessage: false,
-      errorSigninMessage: false
-    }
+  enterRoom() {
+    // store local storage as follows
+    // roomCode
+    // enteredRooms[] // To determine if we have already been in this room we can use the same name
+    // name
+    this.router.navigate(['recital']);
   }
 
-  async signIn() {
-    const success = await (await this.api.signIn("user1","pass1")).success;
-    success ? this.router.navigate(['home']) : this.messages.errorSigninMessage = true;
-  }
-
-  async signUp() {
-    const success = await (await this.api.signUp({userId:1,username:"user 1",password:"123",email:"e@mail.com"})).success;
-    if(success) {
-      this.resetMessages()
-      this.messages.successSignupMessage = true;
-      this.hideSignup = true;
-    }
-    else {
-      this.resetMessages()
-      this.messages.errorSignupMessage = true;
-    }
-  }
-
-  toggleShowSignUp(val) {
-    this.hideSignup = val
-    this.resetMessages();
-  }
 }
+

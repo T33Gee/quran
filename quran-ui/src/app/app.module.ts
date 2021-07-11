@@ -8,7 +8,6 @@ import { LoginComponent } from './components/login/login.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
-import { SpinnerService } from './services/spinner.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TransportService } from './services/backend/transport.service';
 import { LoginService } from './services/backend/login.service';
@@ -18,6 +17,15 @@ import { MatCardModule } from '@angular/material/card';
 import { CardComponent } from './components/shared/card/card/card.component'
 import { SessionService } from './services/session.service';
 import { UserService } from './services/backend/user.service';
+import { RecitalService } from './services/backend/recital.service';
+import { RecitalComponent } from './components/recital/recital.component';
+import { CommonModule } from '@angular/common';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ErrorAlertService } from './services/error-alert.service';
+import { ErrorAlertComponent } from './components/shared/error-alert/error-alert.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RunTaskService } from './services/run-task.service';
+import { ExperienceService } from './services/experience.service';
 
 @NgModule({
   declarations: [
@@ -26,9 +34,12 @@ import { UserService } from './services/backend/user.service';
     SpinnerComponent,
     HomeComponent,
     NavbarComponent,
-    CardComponent
+    CardComponent,
+    RecitalComponent,
+    ErrorAlertComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -37,14 +48,19 @@ import { UserService } from './services/backend/user.service';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    NgxDatatableModule,
+    NgbModule
   ],
   providers: [
-    SpinnerService,
     SessionService,
     TransportService,
     LoginService,
-    UserService
+    UserService,
+    RecitalService,
+    ErrorAlertService,
+    RunTaskService,
+    ExperienceService
   ],
   bootstrap: [AppComponent]
 })

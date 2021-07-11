@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { SpinnerService } from './services/spinner.service';
+import { ErrorAlertService } from './services/error-alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +9,17 @@ import { SpinnerService } from './services/spinner.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'quran-ui';
-  displaySpinner: boolean;
-  spinnerSubscription: Subscription;
-  constructor(private _http: HttpClient, private spinner: SpinnerService) { 
-    
+  
+  
+  constructor(errorAlertService: ErrorAlertService, router: Router) { 
+      router.events.subscribe(() => {
+        errorAlertService.reset();
+    });
   }
   async ngOnInit() {
   }
-  ngOnDestroy() {
-    this.spinnerSubscription.unsubscribe();
+
+  ngOnDestroy() {    
   }
   
 }
