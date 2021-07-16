@@ -10,12 +10,12 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'quran-ui';
   
-  
   constructor(errorAlertService: ErrorAlertService, router: Router) { 
-      router.events.subscribe(() => {
+      router.events.subscribe((_) => {
         errorAlertService.reset();
     });
   }
+
   async ngOnInit() {
   }
 

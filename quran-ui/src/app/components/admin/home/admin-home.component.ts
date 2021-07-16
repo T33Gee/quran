@@ -30,7 +30,7 @@ export class AdminHomeComponent implements OnInit {
   
   ngOnInit(): void {
     this.createRecitalForm = this.fb.group({
-      recitalName: this.fb.control('', [Validators.required]),
+      recitalName: this.fb.control('', [Validators.required, Validators.maxLength(50)]),
       recitalType: this.fb.control(RecitalType.Khattam, [Validators.required]),
     });
     this.createRecitalForm.get('recitalType').valueChanges.subscribe(val => {

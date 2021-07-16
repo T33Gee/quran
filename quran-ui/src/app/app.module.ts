@@ -30,6 +30,7 @@ import { AdminLoginComponent } from './components/admin/login/admin-login.compon
 import { AdminHomeComponent } from './components/admin/home/admin-home.component';
 import { AdminService } from './services/backend/admin.service';
 import { AdminListComponent } from './components/admin/list/admin-list.component';
+import { NavbarAccessService } from './services/backend/navbar.service';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { AdminListComponent } from './components/admin/list/admin-list.component
     ErrorAlertService,
     RunTaskService,
     ExperienceService,
-    AdminService
+    AdminService,
+    NavbarAccessService
   ],
   bootstrap: [AppComponent]
 })
