@@ -99,7 +99,6 @@ export class RecitalComponent implements OnInit {
     item.usersName = "User Test";
     item.status = status;
     this.recitalDetails.recitalItems = [...this.recitalDetails.recitalItems];
-    console.log(this.recitalDetails.recitalItems)
     this.isLoading = false;
     this.calculateStats();    
   }
@@ -107,7 +106,6 @@ export class RecitalComponent implements OnInit {
   private calculateStats() {
     this.recitalStats = new Map();
     const usersParticipated = this.recitalDetails.recitalItems.filter(r => r.status === PledgeStatus.Complete).map(r => r.usersName);
-    console.log(usersParticipated);
     new Set(usersParticipated).forEach(user => {
       const usersParticipation = usersParticipated.filter(i => i === user).length;
       const totalItems = this.recitalDetails.recitalItems.length;

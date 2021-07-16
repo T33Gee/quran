@@ -4,13 +4,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {  HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { LoginComponent } from './components/login/login.component';
+import { AcceptInviteComponent } from './components/accept-invite/accept-invite.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TransportService } from './services/backend/transport.service';
-import { LoginService } from './services/backend/login.service';
+import { AcceptInviteService } from './services/backend/accept-invite.service';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { MatCardModule } from '@angular/material/card';
@@ -30,7 +30,7 @@ import { ExperienceService } from './services/experience.service';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    AcceptInviteComponent,
     SpinnerComponent,
     HomeComponent,
     NavbarComponent,
@@ -55,7 +55,7 @@ import { ExperienceService } from './services/experience.service';
   providers: [
     SessionService,
     TransportService,
-    LoginService,
+    AcceptInviteService,
     UserService,
     RecitalService,
     ErrorAlertService,

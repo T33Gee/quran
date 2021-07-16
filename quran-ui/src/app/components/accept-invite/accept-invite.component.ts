@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { LoginService } from 'src/app/services/backend/login.service';
+import { AcceptInviteService } from 'src/app/services/backend/accept-invite.service';
 import { Router } from '@angular/router';
 import { Observable, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { RunTaskService } from 'src/app/services/run-task.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-accept-invite',
+  templateUrl: './accept-invite.component.html',
+  styleUrls: ['./accept-invite.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class AcceptInviteComponent implements OnInit {
   INVITE_CODE_LENGTH = 8;
   acceptInviteForm: FormGroup;
   isValidatingCode = false;
@@ -36,14 +36,13 @@ export class LoginComponent implements OnInit {
             } 
           });
           this.isValidatingCode = false; 
-          console.log(this.isValidatingCode)
           return result;
         }));
     }
   }
 
 
-  constructor(private api: LoginService,
+  constructor(private api: AcceptInviteService,
               private fb:FormBuilder, 
               private router: Router,
               private runTaskService: RunTaskService

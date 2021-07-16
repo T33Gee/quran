@@ -3,7 +3,7 @@ import { User } from "src/app/models/user.model";
 import { TransportService } from './transport.service';
 
 @Injectable()
-export class LoginService {
+export class AcceptInviteService {
     constructor(private transport: TransportService) {}
 
     signIn(username: string, password: string): Promise<{success: boolean}> {
