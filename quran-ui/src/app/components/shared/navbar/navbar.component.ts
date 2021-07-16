@@ -8,14 +8,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-
-  showNav = false;
-  isLoggedIn$: Observable<boolean>;
+  hasAccess = false;
   constructor(private router: Router) { }
 
   ngOnInit(): void {
     const url = this.router.routerState.snapshot.url;
-    // this.showNav = url !== "/login" && url !== "";
   }
 
 }
