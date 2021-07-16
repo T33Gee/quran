@@ -1,0 +1,42 @@
+<div class="container-fluid" >
+  <div class="row">
+    <section  class="bg-fancy">
+    <div class="mask d-flex justify-content-center align-items-center">
+      <div class="container py-5 my-5">
+        <h3 class="font-weight-bold text-center white-text pb-2">Peace</h3>
+        <div class="row d-flex align-items-center justify-content-center">
+          <div class="col-md-12 col-xl-10">
+            <app-spinner *ngIf="isLoading"></app-spinner>                
+            <div class="card" *ngIf="!!recitalList">              
+              <div class="md-form">
+                <i class="fa fa-search prefix"></i>
+                <input 
+                  type="text"
+                  class="form-control"
+                  placeholder="Search Text"
+                  [(ngModel)]="searchText"
+                  (change)="performSearch()"
+                  />
+              </div>
+                <ngx-datatable
+                class="material expandable"
+                [columnMode]="ColumnMode.force"
+                [rows]="filteredRows"
+                limit="20"                
+                [headerHeight]="50"
+                [rowHeight]="50"
+                [footerHeight]="50">
+                <ngx-datatable-column name="inviteCode" [width]="90" ></ngx-datatable-column>
+                <ngx-datatable-column name="recitalType" [width]="90" ></ngx-datatable-column>
+                <ngx-datatable-column name="recitalName" [width]="90" ></ngx-datatable-column>
+                <ngx-datatable-column name="startedDate" [width]="90" ></ngx-datatable-column>
+                <ngx-datatable-column name="recitalStatus" [width]="90" ></ngx-datatable-column>                              
+                </ngx-datatable>                                                  
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  </div>

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { TransportService } from './transport.service';
-import { PledgeStatus, Recital, RecitalType, RecitatStatus } from "src/app/models/api-models";
+import { PledgeStatus, RecitalDetails, RecitalType, RecitatStatus } from "src/app/models/api-models";
 
 @Injectable()
 export class RecitalService {
@@ -14,8 +14,9 @@ export class RecitalService {
         return Promise.resolve();
     }
 
-    async getRecitalDetails(inviteCode: string): Promise<Recital> {
-        const response:Recital = {
+    async getRecitalDetails(inviteCode: string): Promise<RecitalDetails> {
+        const response:RecitalDetails = {
+            inviteCode: "11111111",
             recitalType: RecitalType.Khattam,
             recitalName: '20 yaseen for the elderly', // or khattam for loved one
             startedDate: '2021-12-12',

@@ -26,6 +26,10 @@ import { ErrorAlertComponent } from './components/shared/error-alert/error-alert
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RunTaskService } from './services/run-task.service';
 import { ExperienceService } from './services/experience.service';
+import { AdminLoginComponent } from './components/admin/login/admin-login.component';
+import { AdminHomeComponent } from './components/admin/home/admin-home.component';
+import { AdminService } from './services/backend/admin.service';
+import { AdminListComponent } from './components/admin/list/admin-list.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,10 @@ import { ExperienceService } from './services/experience.service';
     NavbarComponent,
     CardComponent,
     RecitalComponent,
-    ErrorAlertComponent
+    ErrorAlertComponent,
+    AdminLoginComponent,
+    AdminHomeComponent,
+    AdminListComponent
   ],
   imports: [
     CommonModule,
@@ -60,7 +67,8 @@ import { ExperienceService } from './services/experience.service';
     RecitalService,
     ErrorAlertService,
     RunTaskService,
-    ExperienceService
+    ExperienceService,
+    AdminService
   ],
   bootstrap: [AppComponent]
 })

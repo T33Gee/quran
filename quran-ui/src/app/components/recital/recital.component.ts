@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
-import { PledgeStatus, Recital } from 'src/app/models/api-models';
+import { PledgeStatus, RecitalDetails } from 'src/app/models/api-models';
 import { RecitalService } from 'src/app/services/backend/recital.service';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { RecitalStat } from 'src/app/models/view-modes';
@@ -16,7 +16,7 @@ export class RecitalComponent implements OnInit {
   isLoading = true;
   ColumnMode = ColumnMode;
   PledgeStatus = PledgeStatus;
-  recitalDetails: Recital;
+  recitalDetails: RecitalDetails;
   recitalStats: Map<string, string>;
   recitalStatRows: RecitalStat[];
   getRecitalStatRows(): RecitalStat[] {

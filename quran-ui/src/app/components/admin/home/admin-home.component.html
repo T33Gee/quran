@@ -1,0 +1,106 @@
+<div class="container-fluid" >
+  <div class="row">
+    <section  class="bg-fancy">
+    <div class="mask d-flex justify-content-center align-items-center">
+      <div class="container py-5 my-5">
+        <h3 class="font-weight-bold text-center white-text pb-2">Peace</h3>
+        <p class="lead text-center white-text pt-2 mb-5">Please create a recital</p>
+        <div class="row d-flex align-items-center justify-content-center">
+          <div class="col-md-6 col-xl-5">
+            <div class="card" *ngIf="createRecitalForm">
+            <ngb-alert *ngIf="!!inviteCode" type='dark' [dismissible]="true">
+                <div class="alert-container">
+                    <div class="alert-icon ico-alert-circle"></div>
+                    <div class="alert-message multiline">Invite created successfully with the invite code</div>
+                    <b>{{inviteCode}}</b>
+                </div>
+            </ngb-alert>
+              <form [formGroup]="createRecitalForm">
+                <app-spinner *ngIf="isCreatingRecital"></app-spinner>   
+                
+                    <div class="md-form">
+                      <i class="fa fa-book-open prefix"></i>
+                      <input 
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter recital name eg. khattam for..."
+                        formControlName="recitalName"/>
+                    </div>
+
+                      <!-- <div class="form-check" >
+                        <i class="fa fa-quran prefix"></i>                      
+                          <input 
+                          id="inlineRadio1"
+                          type="radio"
+                          name="recitalType"
+                          [value]="RecitalType.Khattam"
+                          class="form-control form-check-input"
+                          formControlName="recitalType"
+                          />
+                          <label class="form-check-label" for="inlineRadio1">1</label>
+                          <input 
+                          type="radio"
+                          name="recitalType"
+                          [value]="RecitalType.Surah"
+                          class="form-control form-check-input"
+                          formControlName="recitalType"
+                          />
+                      </div> -->
+ 
+                      
+                      <div class="md-form">
+                        <i class="fa fa-quran prefix"></i>
+                        
+                      </div>
+                      <div class="radios">
+                        <div class="custom-control custom-radio">
+                          <input 
+                          type="radio" 
+                          class="custom-control-input" 
+                          id="recitalType-khattam" 
+                          name="recitalType" 
+                          [value]="RecitalType.Khattam" 
+                          formControlName="recitalType"  
+                          checked>
+                          <label class="custom-control-label" for="recitalType-khattam">Khattam</label>
+                        </div>
+                        
+                        <div class="custom-control custom-radio">
+                          <input 
+                          type="radio" 
+                          class="custom-control-input" 
+                          id="recitalType-surah" 
+                          name="recitalType" 
+                          [value]="RecitalType.Surah"
+                          formControlName="recitalType"
+                          >
+                          <label class="custom-control-label" for="recitalType-surah">Surah</label>
+                        </div>
+                      </div>
+
+                    <div class="md-form" *ngIf="recitalType === RecitalType.Surah">
+                      <i class="fa fa-list-ol prefix"></i>
+                      <input 
+                        type="number"
+                        class="form-control"
+                        placeholder="how many times"
+                        formControlName="recitalNumberOfTimes"
+                        />
+                    </div>
+
+                <div class="col-md-12 text-center">
+                    <button 
+                    [disabled]="!createRecitalForm.valid"
+                    class="btn btn-success"
+                    (click)="createRecital()"
+                    >Create Recital</button>  
+                  </div>                
+              </form>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  </div>

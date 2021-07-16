@@ -5,10 +5,14 @@ export interface InvitedUser {
 }
 
 export interface Recital {
+    inviteCode: string;
     recitalType: RecitalType;
     recitalName: string;
     startedDate: string;  
     recitalStatus: RecitatStatus;
+}
+
+export interface RecitalDetails extends Recital {
     recitalItems: PledgeToRecite[];
 } 
 
@@ -32,4 +36,14 @@ export enum PledgeStatus {
     NotStarted = 'NotStarted',
     Pledged = 'Pledged',
     Complete = 'Complete'
+}
+
+
+export interface LoginResponse {
+    success: boolean;
+    menuItems: string[];
+}
+
+export interface RecitalAddedResponse {
+    inviteCode: string;
 }

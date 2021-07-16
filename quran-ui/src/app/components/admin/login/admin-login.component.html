@@ -1,0 +1,47 @@
+<div class="container-fluid" >
+  <div class="row">
+    <section  class="bg-fancy">
+    <div class="mask d-flex justify-content-center align-items-center">
+      <div class="container py-5 my-5">
+        <h3 class="font-weight-bold text-center white-text pb-2">Peace</h3>
+        <p class="lead text-center white-text pt-2 mb-5">Please login</p>
+        <div class="row d-flex align-items-center justify-content-center">
+          <div class="col-md-6 col-xl-5">
+            <div class="card" *ngIf="loginForm">
+              <form [formGroup]="loginForm">
+                <app-spinner *ngIf="isValidatingLogin"></app-spinner>                
+                <div class="md-form">
+                  <i class="fa fa-user prefix"></i>
+                  <input 
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Username/Email"
+                    formControlName="username"/>
+                </div>
+                
+                <div class="md-form" >
+                  <i class="fa fa-key prefix"></i>
+                  <input 
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Password"
+                    formControlName="password"
+                    />
+                </div>
+
+                  <div class="col-md-12 text-center">
+                    <button 
+                    [disabled]="!loginForm.valid"
+                    class="btn btn-success"
+                    (click)="login()"
+                    >Login</button>  
+                  </div>                
+              </form>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  </div>
