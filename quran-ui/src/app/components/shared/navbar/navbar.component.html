@@ -17,9 +17,6 @@
         <li class="nav-item" *ngIf="items.includes(NavItemEnum.Logout)">
           <a class="nav-link waves-light" (click)=navigateTo(NavItemEnum.Logout) mdbWavesEffect>Logout</a>
         </li>
-        <li class="nav-item">
-          {{items | json}}
-        </li>
         </ul>
     </links>
   
