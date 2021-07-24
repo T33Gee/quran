@@ -35,9 +35,16 @@ class RecitalDetailsModel extends Model
         $item = $this->findRecitalItem($recitalId, $itemName, $oldStatus, $oldUsername);    
         $item['recital_user_name'] = $newUsername;
         $item['recital_item_status'] = $newStatus;
-        $this->update($item['id'], $item);
+        if(!$this->update($item['id'], $item)) throw new Exception('Could not update the status');
     }
 
+    public function findRecitalByStatus($recitalId, $status) {
+        return $this->asArray()->where(['recital_id' => $recitalId, 'recital_item_status' => $status])->get()->getResult();
+    }
+
+    public function isRecitalComplete($recitalId) {
+        return count($this->findRecitalByStatus($recitalId, 'NotStarted')) + count($this->findRecitalByStatus($recitalId, 'Pledged')) === 0;
+    }
 
     // protected $beforeInsert = ['beforeInsert'];
     // protected $beforeUpdate = ['beforeUpdate'];

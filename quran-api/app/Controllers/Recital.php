@@ -106,6 +106,20 @@ class Recital extends BaseController
             return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
         }
         $this->updatePledgeStatus($input, 'Pledged', 'Complete', $input['username'], $input['username']);
+        try{
+            $recitalModel = new RecitalsModel();            
+            $recitalInfo = $recitalModel->findRecitalByInviteCode($input['inviteCode']);                        
+            $recitalDetailsModel = new RecitalDetailsModel();            
+            $recitalComplete = $recitalDetailsModel->isRecitalComplete($recitalInfo['id']);
+            if($recitalComplete)  $recitalModel->markAsComplete($input['inviteCode']);
+        } catch(Exception $e) {
+            return $this->getResponse(
+                [
+                    'message' => 'Could not update recital status'
+                ],
+                ResponseInterface::HTTP_NOT_FOUND
+            );
+        }         
     }
 
     

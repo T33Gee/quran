@@ -61,4 +61,10 @@ class RecitalsModel extends Model
         if (!$recital)  throw new Exception('Recital does not exist for specified invite code');
         return $recital;
     }
+
+    public function markAsComplete($inviteCode) {
+        $recital = $this->findRecitalByInviteCode($inviteCode);
+        $recital['recital_status'] = 'Complete';        
+        if(!$this->update($recital['id'], $recital)) throw new Exception('Failed to mark recital as complete');
+    }
 }
