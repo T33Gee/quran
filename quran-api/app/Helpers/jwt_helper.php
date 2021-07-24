@@ -28,6 +28,7 @@ function getSignedJWTForReciter(string $inviteCode)
     $tokenExpiration = $issuedAtTime + $tokenTimeToLive;
     $payload = [
         'inviteCode' => $inviteCode,
+        'access' => ['accept-invite'],
         'iat' => $issuedAtTime,
         'exp' => $tokenExpiration,
     ];
@@ -36,13 +37,14 @@ function getSignedJWTForReciter(string $inviteCode)
     return $jwt;
 }
 
-function getSignedJWTForAdmin(string $email)
+function getSignedJWTForAdmin(string $username)
 {
     $issuedAtTime = time();
     $tokenTimeToLive = getenv('JWT_TIME_TO_LIVE');
     $tokenExpiration = $issuedAtTime + $tokenTimeToLive;
     $payload = [
-        'email' => $email,
+        'username' => $username,
+        'access' =>  ['admin-home', 'admin-list', 'admin'],
         'iat' => $issuedAtTime,
         'exp' => $tokenExpiration,
     ];

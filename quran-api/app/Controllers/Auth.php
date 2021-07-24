@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use ReflectionException;
 use App\Models\RecitalsModel;
+use App\Models\UserModel;
 
 class Auth extends BaseController
 {
@@ -50,33 +51,27 @@ class Auth extends BaseController
      * Authenticate Existing User
      * @return Response
      */
-    // public function login()
-    // {
-    //     $rules = [
-    //         'email' => 'required|min_length[6]|max_length[50]|valid_email',
-    //         'password' => 'required|min_length[8]|max_length[255]|validateUser[email, password]'
-    //     ];
+    public function login()
+    {
+        $rules = [
+            'username' => 'required|min_length[6]|max_length[50]',
+            'password' => 'required|min_length[8]|max_length[255]|validateUser[username, password]'
+        ];
 
-    //     $errors = [
-    //         'password' => [
-    //             'validateUser' => 'Invalid login credentials provided'
-    //         ]
-    //     ];
+        $errors = [
+            'password' => [
+                'validateUser' => 'Invalid login credentials provided'
+            ]
+        ];
 
-    //     $input = $this->getRequestInput($this->request);
+        $input = $this->getRequestInput($this->request);
 
 
-    //     if (!$this->validateRequest($input, $rules, $errors)) {
-    //         return $this
-    //             ->getResponse(
-    //                 $this->validator->getErrors(),
-    //                 ResponseInterface::HTTP_BAD_REQUEST
-    //             );
-    //     }
-    //    return $this->getJWTForUser($input['email']);
-
-       
-    // }
+        if (!$this->validateRequest($input, $rules, $errors)) {
+            return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
+        }
+       return $this->getJWTForAdmin($input['username']);       
+    }
 
     public function enterRoom() 
     {
@@ -97,10 +92,9 @@ class Auth extends BaseController
             helper('jwt');
 
             return $this->getResponse([
-                            'message' => 'User authenticated successfully',
-                            'access_token' => getSignedJWTForReciter($inviteCode),
-                            'menu_items'
-                    ]);
+                    'message' => 'User authenticated successfully',
+                    'access_token' => getSignedJWTForReciter($inviteCode)
+                ]);
         } catch (Exception $exception) {
             return $this->getResponse(
                     [
@@ -112,17 +106,17 @@ class Auth extends BaseController
         }
     }
 
-    private function getJWTForAdmin(string $inviteCode, int $responseCode = ResponseInterface::HTTP_OK)
+    private function getJWTForAdmin($username, int $responseCode = ResponseInterface::HTTP_OK)
     {
         try {
-            $model = new RecitalsModel();
-            $recital = $model->findRecitalByInviteCode($inviteCode);
-            unset($recital['inviteCode']);
+            $model = new UserModel();
+            $user = $model->findUserByUsername($username);
+            unset($user['password']);
             helper('jwt');
 
             return $this->getResponse([
                             'message' => 'User authenticated successfully',
-                            'access_token' => getSignedJWTForReciter($inviteCode)
+                            'access_token' => getSignedJWTForAdmin($username)
                     ]);
         } catch (Exception $exception) {
             return $this->getResponse(
