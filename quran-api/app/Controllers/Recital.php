@@ -81,6 +81,23 @@ class Recital extends BaseController
             ]
         );
     }
+    /**
+     * MOVE TO ADMIN
+     */
+    public function getAllRecitals() {
+        try{
+            $model = new RecitalsModel();
+            return $this->getResponse($model->getAllRecitals());        
+        } catch(Exception $e) {
+            return $this->getResponse(
+                [
+                    'message' => 'Could not get recitals'
+                ],
+                ResponseInterface::HTTP_NOT_FOUND
+            );
+        }
+    }
+
 
     public function pledgeToRecite() {
         $rules = [            

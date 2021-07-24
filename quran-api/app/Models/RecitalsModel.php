@@ -67,4 +67,8 @@ class RecitalsModel extends Model
         $recital['recital_status'] = 'Complete';        
         if(!$this->update($recital['id'], $recital)) throw new Exception('Failed to mark recital as complete');
     }
+
+    public function getAllRecitals() {
+        return $this->findAll();
+    }
 }

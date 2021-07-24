@@ -26,6 +26,7 @@ $routes->setAutoRoute(true);
 
 $routes->post('recital', 'Recital::create');// should be admin
 $routes->get('recital/(:alphanum)', 'Recital::getDetails/$1');
+$routes->get('recital', 'Recital::getAllRecitals');
 $routes->post('pledge', 'Recital::pledgeToRecite'); // should be put but the params dont get set
 $routes->post('pledgeComplete', 'Recital::pledgeCompleted'); // should be put but the params dont get set
 
