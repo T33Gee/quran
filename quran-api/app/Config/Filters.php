@@ -63,6 +63,9 @@ class Filters extends BaseConfig
 	public $filters = [
 		'auth' => [
 		  'before' => [
+			  // TODO enable JWT here
+			  //'recital*',
+			  //'pledge*'
 			  'recitals/*',
 			  'recitals'
 		],
