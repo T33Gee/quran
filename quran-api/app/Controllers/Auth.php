@@ -98,6 +98,30 @@ class Auth extends BaseController
 
             return $this->getResponse([
                             'message' => 'User authenticated successfully',
+                            'access_token' => getSignedJWTForReciter($inviteCode),
+                            'menu_items'
+                    ]);
+        } catch (Exception $exception) {
+            return $this->getResponse(
+                    [
+                        'message' => $exception->getMessage(),
+                        'access_token' => ''
+                    ],
+                    $responseCode
+                );
+        }
+    }
+
+    private function getJWTForAdmin(string $inviteCode, int $responseCode = ResponseInterface::HTTP_OK)
+    {
+        try {
+            $model = new RecitalsModel();
+            $recital = $model->findRecitalByInviteCode($inviteCode);
+            unset($recital['inviteCode']);
+            helper('jwt');
+
+            return $this->getResponse([
+                            'message' => 'User authenticated successfully',
                             'access_token' => getSignedJWTForReciter($inviteCode)
                     ]);
         } catch (Exception $exception) {
