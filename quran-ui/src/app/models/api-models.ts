@@ -44,6 +44,11 @@ export interface LoginResponse {
     menuItems: string[];
 }
 
+export interface AuthorizationResponse {
+    accessToken: string;
+}
+
+
 export interface RecitalAddedResponse {
     inviteCode: string;
 }

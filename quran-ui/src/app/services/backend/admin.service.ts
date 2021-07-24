@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { LoginResponse, Recital, RecitalAddedResponse, RecitalType, RecitatStatus } from "src/app/models/api-models";
+import { AuthorizationResponse, LoginResponse, Recital, RecitalAddedResponse, RecitalType, RecitatStatus } from "src/app/models/api-models";
 import { TransportService } from './transport.service';
 
 @Injectable()
@@ -7,9 +7,10 @@ export class AdminService {
     constructor(private transport: TransportService) {}
 
     async validateLogin(username: string, password: string): Promise<LoginResponse> {
+        const response: AuthorizationResponse = {accessToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpbnZpdGVDb2RlIjoiUko2SUFHMDIiLCJhY2Nlc3MiOlsiYWNjZXB0LWludml0ZSJdLCJpYXQiOjE2MjcxNDQ3MTMsImV4cCI6MTYyNzE0ODMxM30.XrB4PtZUQC48_vKq34o-4ObTxg4-6TCjuBlpTH6o7UI"};
         return Promise.resolve({
-            success: username === "1",
-            menuItems: ["View Created recitals","Logout"]
+            success: response.accessToken !== "",
+            menuItems: JSON.parse(atob(response.accessToken.split('.')[1])).access
         });
     }
 

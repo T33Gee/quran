@@ -91,18 +91,9 @@ class Auth extends BaseController
             unset($recital['inviteCode']);
             helper('jwt');
 
-            return $this->getResponse([
-                    'message' => 'User authenticated successfully',
-                    'access_token' => getSignedJWTForReciter($inviteCode)
-                ]);
+            return $this->getResponse(['accessToken' => getSignedJWTForReciter($inviteCode)]);
         } catch (Exception $exception) {
-            return $this->getResponse(
-                    [
-                        'message' => $exception->getMessage(),
-                        'access_token' => ''
-                    ],
-                    $responseCode
-                );
+            return $this->getResponse(['accessToken' => ''], $responseCode);
         }
     }
 
@@ -114,18 +105,9 @@ class Auth extends BaseController
             unset($user['password']);
             helper('jwt');
 
-            return $this->getResponse([
-                            'message' => 'User authenticated successfully',
-                            'access_token' => getSignedJWTForAdmin($username)
-                    ]);
+            return $this->getResponse(['accessToken' => getSignedJWTForAdmin($username)]);
         } catch (Exception $exception) {
-            return $this->getResponse(
-                    [
-                        'message' => $exception->getMessage(),
-                        'access_token' => ''
-                    ],
-                    $responseCode
-                );
+            return $this->getResponse(['accessToken' => ''], $responseCode);
         }
     }
 }
