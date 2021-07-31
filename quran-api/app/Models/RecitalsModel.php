@@ -67,7 +67,6 @@ class RecitalsModel extends Model
                 $i=0;
             }
         }
-        var_dump($username);
         return $username;
     }
 
