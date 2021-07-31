@@ -75,19 +75,25 @@ class Auth extends BaseController
 
     public function enterRoom() 
     {
-        $rules = ['inviteCode' => 'required|min_length[8]|max_length[8]'];
+        $rules = [
+            'inviteCode' => 'required|min_length[8]|max_length[8]',
+            'username' => 'required|max_length[20]'];
         $input = $this->getRequestInput($this->request);
         if (!$this->validateRequest($input, $rules)) {
             return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
         }
-        return $this->getJWTForReciter($input['inviteCode']);
+        $recitalModel = new RecitalsModel();
+        $username = $input['username'];
+        $inviteCode = $input['inviteCode'];
+        $username = $recitalModel->getUniqueName($inviteCode, $username);
+        return $this->getJWTForReciter($inviteCode);
     }
 
     private function getJWTForReciter(string $inviteCode, int $responseCode = ResponseInterface::HTTP_OK)
     {
         try {
-            $model = new RecitalsModel();
-            $recital = $model->findRecitalByInviteCode($inviteCode);
+            $recitalModel = new RecitalsModel();
+            $recital = $recitalModel->findRecitalByInviteCode($inviteCode);
             unset($recital['inviteCode']);
             helper('jwt');
 

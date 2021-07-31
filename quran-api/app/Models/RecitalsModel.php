@@ -4,6 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 use Exception;
+use stdClass;
 
 class RecitalsModel extends Model
 {
@@ -54,7 +55,22 @@ class RecitalsModel extends Model
     // {
     //     return password_hash($plaintextPassword, PASSWORD_BCRYPT);
     // }
-                                      
+           
+    public function getUniqueName($inviteCode, $username) {
+        $recitalDetailsModel = new RecitalDetailsModel();
+        $recitalInfo = $this->findRecitalByInviteCode($inviteCode);
+        $recitalDetails = $recitalDetailsModel->findRecitalDetailsByRecitalId($recitalInfo['id']);
+        for($i=0;$i<count($recitalDetails);$i++)
+        {
+            if($recitalDetails[$i]->recital_user_name === $username) {
+                $username = $username.$this->generateRandomString();
+                $i=0;
+            }
+        }
+        var_dump($username);
+        return $username;
+    }
+
     public function findRecitalByInviteCode(string $inviteCode)
     {
         $recital = $this->asArray()->where(['recital_invite_code' => $inviteCode])->first();
@@ -69,6 +85,27 @@ class RecitalsModel extends Model
     }
 
     public function getAllRecitals() {
-        return $this->findAll();
+        $recitals = $this->findAll();
+        $mappedRecitals = [];
+        foreach($recitals as $r) {
+                $mapped = new stdClass();
+                $mapped->inviteCode = $r["recital_invite_code"];
+                $mapped->recitalType = $r["recital_type"];
+                $mapped->recitalName = $r["recital_name"];
+                $mapped->startedDate = $r["recital_started_date"];
+                $mapped->recitalStatus = $r["recital_status"];
+                array_push($mappedRecitals, $mapped);
+        }
+        return $mappedRecitals;
+    }
+
+    private function generateRandomString($length = 4) {
+        $characters = '123456789';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }
