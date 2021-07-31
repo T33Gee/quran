@@ -89,6 +89,19 @@ class Auth extends BaseController
         return $this->getJWTForReciter($inviteCode);
     }
 
+    public function validateInviteCode() {
+        $rules = [
+            'inviteCode' => 'required|min_length[8]|max_length[8]'];
+            $input = $this->getRequestInput($this->request);
+            if (!$this->validateRequest($input, $rules)) {
+                return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
+            }
+            $recitalModel = new RecitalsModel();
+            $inviteCode = $input['inviteCode'];
+            $recital = $recitalModel->findRecitalByInviteCode($inviteCode);
+            return $recital;
+    }
+
     private function getJWTForReciter(string $inviteCode, int $responseCode = ResponseInterface::HTTP_OK)
     {
         try {

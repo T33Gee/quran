@@ -1,15 +1,109 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 
 @Injectable()
 export class TransportService {
-    public baseUrl = "http://localhost/Quran/api/index.php";
-    constructor(private _http: HttpClient){
+    public baseUrl = "http://localhost:8080";
+    tokenKey = "authorizationData"
+    constructor(private httpClient: HttpClient){
     }
-    public get(url: string): Promise<any> {
-        return this._http.get(`${this.baseUrl}/${url}`).toPromise();
+    
+    get<T>(action: string, params?: HttpParams): Promise<T> {
+        return this.httpClient
+            .get<T>(this.getApiUrl(action), {
+                params,
+                headers: this.getHeaders()
+            })
+            .toPromise();
     }
-    public post(url: string, params?: HttpParams): Promise<any> {
-        return this._http.post(`${this.baseUrl}/${url}`, params).toPromise();
+
+    post<T>(
+        action: string,
+        payload: any,
+        params?: HttpParams,
+        options?: { responseType: string }
+    ): Promise<T> {
+        if (options && options.responseType === 'json') {
+            return this.httpClient
+                .post<T>(this.getApiUrl(action), payload, {
+                    headers: this.getHeaders(),
+                    observe: 'response',
+                    responseType: 'json',
+                    params
+                })
+                .toPromise()
+                .then(res => res.body);
+        }
+
+        return this.httpClient
+            .post(this.getApiUrl(action), payload, {
+                headers: this.getHeaders(),
+                observe: 'response',
+                responseType: 'text',
+                params
+            })
+            .toPromise().then();
+
     }
+
+    put<T>(
+        action: string,
+        payload: any,
+        params?: HttpParams,
+        options?: { responseType: string }
+    ): Promise<T> {
+        if (options && options.responseType === 'json') {
+            return this.httpClient
+                .put<T>(this.getApiUrl(action), payload, {
+                    headers: this.getHeaders(),
+                    observe: 'response',
+                    responseType: 'json',
+                    params
+                })
+                .toPromise()
+                .then(res => res.body);
+        }
+
+        return this.httpClient
+            .put(this.getApiUrl(action), payload, {
+                headers: this.getHeaders(),
+                observe: 'response',
+                responseType: 'text',
+                params
+            }).toPromise().then();
+        
+    }
+
+    delete(action: string, params?: HttpParams): Promise<void> {
+        return this.httpClient.delete(this.getApiUrl(action), {params, headers: this.getHeaders(), responseType: 'text'}).toPromise().then();
+    }
+
+    getBinary(action: string): Promise<HttpResponse<ArrayBuffer>> {
+        const url = this.getApiUrl(action);
+        return this.httpClient.get(url, {observe: 'response'
+        , responseType: 'arraybuffer'
+        , headers: this.getHeaders() }).toPromise();
+    }
+
+    private getApiUrl(query) {
+        return this.baseUrl+"/"+query;
+    }
+
+    private getHeaders(): HttpHeaders {
+        let headers = new HttpHeaders()
+            // .append('Content-Type', 'application/json')
+            // .append('Accept', 'application/json')
+            // .append('Access-Control-Allow-Origin', '*');
+            
+// 'Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT'
+
+        const token = sessionStorage.getItem(this.tokenKey);
+        if (token) headers = headers.append('Authorization', 'Bearer ' + token);
+
+        // const clientId = this.session.getClient()?.id;
+        // if (clientId) headers = headers.append('ClientId', clientId);
+        
+        return headers;
+    }
+    
 }

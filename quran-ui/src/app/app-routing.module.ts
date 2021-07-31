@@ -4,13 +4,11 @@ import { AcceptInviteComponent } from './components/accept-invite/accept-invite.
 import { AdminHomeComponent } from './components/admin/home/admin-home.component';
 import { AdminListComponent } from './components/admin/list/admin-list.component';
 import { AdminLoginComponent } from './components/admin/login/admin-login.component';
-import { HomeComponent } from './components/home/home.component';
 import { RecitalComponent } from './components/recital/recital.component';
 
 
 const routes: Routes = [
   { path: 'accept-invite', component: AcceptInviteComponent },
-  /// { path: 'home', component: HomeComponent },
   { path: 'recital', component: RecitalComponent },
   { path: 'admin', component: AdminLoginComponent },
   { path: 'admin-home', component: AdminHomeComponent },
