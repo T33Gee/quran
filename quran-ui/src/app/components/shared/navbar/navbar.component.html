@@ -1,21 +1,21 @@
 
-<mdb-navbar *ngIf="hasAccess" SideClass="navbar navbar-expand-lg navbar-dark unique-color" [containerInside]="false">
+<mdb-navbar *ngIf="hasAccess && items" SideClass="navbar navbar-expand-lg navbar-dark unique-color" [containerInside]="false">
 
     <mdb-navbar-brand><a class="navbar-brand">QRecital</a></mdb-navbar-brand>
 
     <links>
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item" *ngIf="items.includes(NavItemEnum.Exit)">
-          <a class="nav-link waves-light" (click)=navigateTo(NavItemEnum.Exit) mdbWavesEffect>Enter Different Room</a>
+        <li class="nav-item" *ngIf="items?.includes(NavItemEnum.Exit)">
+          <a class="nav-link waves-light" (click)=exitRoom(NavItemEnum.Exit) mdbWavesEffect>Enter Different Room</a>
         </li>
-        <li class="nav-item" *ngIf="items.includes(NavItemEnum.CreateRecital)">
+        <li class="nav-item" *ngIf="items?.includes(NavItemEnum.CreateRecital)">
           <a class="nav-link waves-light" (click)=navigateTo(NavItemEnum.CreateRecital) mdbWavesEffect>Create Recital</a>
         </li>
-        <li class="nav-item" *ngIf="items.includes(NavItemEnum.ViewList)">
+        <li class="nav-item" *ngIf="items?.includes(NavItemEnum.ViewList)">
           <a class="nav-link waves-light" (click)=navigateTo(NavItemEnum.ViewList) mdbWavesEffect>View Recital List</a>
         </li>
-        <li class="nav-item" *ngIf="items.includes(NavItemEnum.Logout)">
-          <a class="nav-link waves-light" (click)=navigateTo(NavItemEnum.Logout) mdbWavesEffect>Logout</a>
+        <li class="nav-item" *ngIf="items?.includes(NavItemEnum.Logout)">
+          <a class="nav-link waves-light" (click)=logout(NavItemEnum.Logout) mdbWavesEffect>Logout</a>
         </li>
         </ul>
     </links>

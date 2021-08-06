@@ -16,6 +16,15 @@ export interface RecitalDetails extends Recital {
     recitalItems: PledgeToRecite[];
 } 
 
+export interface RoomEnteredResponse{
+    accessToken: string;
+}
+
+export interface EnterRoomRequest{
+    inviteCode: string;
+    username: string;
+}
+
 export interface PledgeToRecite{
     itemName: string;
     usersName?: string;
@@ -51,4 +60,16 @@ export interface AuthorizationResponse {
 
 export interface RecitalAddedResponse {
     inviteCode: string;
+}
+
+export interface RecitalItemStatusChangeRequest {
+    inviteCode: string;
+    itemName: string;
+    username: string;
+}
+
+export interface AddRecitalRequest {
+    recitalName: string;
+    recitalType: RecitalType;
+    recitalNumberOfTimes: number;
 }

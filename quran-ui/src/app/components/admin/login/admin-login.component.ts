@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RunTaskService } from 'src/app/services/run-task.service';
 import { AdminService } from 'src/app/services/backend/admin.service';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -17,10 +18,15 @@ export class AdminLoginComponent implements OnInit {
   constructor(private api: AdminService,
               private fb:FormBuilder, 
               private router: Router,
-              private runTaskService: RunTaskService
+              private runTaskService: RunTaskService,
+              private sessionService: SessionService
               ) { }
   
   ngOnInit(): void {
+    if(this.sessionService.adminSessionIsSet) {
+      this.router.navigate(['admin-home']);
+    }
+
     this.loginForm = this.fb.group({
       username: this.fb.control('', [Validators.required]),
       password: this.fb.control('', [Validators.required]),
@@ -31,16 +37,15 @@ export class AdminLoginComponent implements OnInit {
   async login() {
     this.isValidatingLogin = true;
     await this.runTaskService.runTask('validating login', async () => {
-      var login = await this.api.validateLogin(this.username, this.password)
-      if(login.success) {
-        // set menu items
+      await this.api.validateLogin(this.username, this.password)
+      if(this.sessionService.adminSessionIsSet) {
         this.isValidatingLogin = false; 
         this.router.navigate(['admin-home']);
       }
       else {
         throw new Error();
       }
-    }, true, () => { return {errorText: "cannot log you in"}});
-    this.isValidatingLogin = false; 
+    }, true, () => { return {errorText: "cannot log you in"}}).finally(() => this.isValidatingLogin = false);
+    
   }
 }

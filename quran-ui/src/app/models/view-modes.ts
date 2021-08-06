@@ -11,3 +11,14 @@ export enum NavItemEnum {
     /*NON-ADMIN*/
     Exit='accept-invite'
 }
+
+export interface ReciterInfo {
+    username: string;
+    inviteCode: string;
+    access: NavItemEnum[];
+}
+
+export interface AdminInfo {
+    username: string;
+    access: NavItemEnum[];
+}

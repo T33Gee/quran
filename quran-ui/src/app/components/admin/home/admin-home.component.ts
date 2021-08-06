@@ -43,12 +43,12 @@ export class AdminHomeComponent implements OnInit {
 
   async createRecital() {
     this.isCreatingRecital = true;
-    console.log(this.recitalNumberOfTimes);
     await this.runTaskService.runTask('creating recital', async() => {
-      this.inviteCode = (await this.api.addNewRecital(this.recitalName, this.recitalType, this.recitalNumberOfTimes)).inviteCode;
-    });
-    setTimeout(() => {      
-      this.isCreatingRecital = false; 
-    }, 1000);
+      this.inviteCode = (await this.api.addNewRecital(      {
+        recitalName: this.recitalName,
+        recitalType: this.recitalType,
+        recitalNumberOfTimes: this.recitalNumberOfTimes
+      })).inviteCode;
+    }).finally(() => this.isCreatingRecital = false);
   }
 }

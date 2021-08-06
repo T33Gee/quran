@@ -6,7 +6,7 @@ import { TransportService } from './transport.service';
 export class NavbarAccessService {
     constructor(private transport: TransportService) {}
 
-    async getUserAccess(userAuth: string):Promise<NavItemEnum[]> {
+    async getUserAccess(access: NavItemEnum[]):Promise<NavItemEnum[]> {
         const Admin = [
             NavItemEnum.CreateRecital,
             NavItemEnum.ViewList,

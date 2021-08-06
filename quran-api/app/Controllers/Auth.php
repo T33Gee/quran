@@ -86,7 +86,7 @@ class Auth extends BaseController
         $username = $input['username'];
         $inviteCode = $input['inviteCode'];
         $username = $recitalModel->getUniqueName($inviteCode, $username);
-        return $this->getJWTForReciter($inviteCode);
+        return $this->getJWTForReciter($inviteCode, $username);
     }
 
     public function validateInviteCode() {
@@ -102,7 +102,7 @@ class Auth extends BaseController
             return $recital;
     }
 
-    private function getJWTForReciter(string $inviteCode, int $responseCode = ResponseInterface::HTTP_OK)
+    private function getJWTForReciter(string $inviteCode, string $username, int $responseCode = ResponseInterface::HTTP_OK)
     {
         try {
             $recitalModel = new RecitalsModel();
@@ -110,7 +110,7 @@ class Auth extends BaseController
             unset($recital['inviteCode']);
             helper('jwt');
 
-            return $this->getResponse(['accessToken' => getSignedJWTForReciter($inviteCode)]);
+            return $this->getResponse(['accessToken' => getSignedJWTForReciter($inviteCode, $username)]);
         } catch (Exception $exception) {
             return $this->getResponse(['accessToken' => ''], $responseCode);
         }

@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/comm
 @Injectable()
 export class TransportService {
     public baseUrl = "http://localhost:8080";
-    tokenKey = "authorizationData"
+    tokenKey = "authorization"
     constructor(private httpClient: HttpClient){
     }
     
@@ -91,13 +91,12 @@ export class TransportService {
 
     private getHeaders(): HttpHeaders {
         let headers = new HttpHeaders()
-            // .append('Content-Type', 'application/json')
-            // .append('Accept', 'application/json')
-            // .append('Access-Control-Allow-Origin', '*');
+            .append('Content-Type', 'application/json')
+            .append('Accept', 'application/json');
+//             .append('Access-Control-Allow-Origin', '*');
             
-// 'Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT'
 
-        const token = sessionStorage.getItem(this.tokenKey);
+        const token = localStorage.getItem(this.tokenKey);
         if (token) headers = headers.append('Authorization', 'Bearer ' + token);
 
         // const clientId = this.session.getClient()?.id;

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AuthorizationResponse } from "src/app/models/api-models";
+import { AuthorizationResponse, EnterRoomRequest, RoomEnteredResponse } from "src/app/models/api-models";
 import { TransportService } from './transport.service';
 
 @Injectable()
@@ -16,4 +16,8 @@ export class AcceptInviteService {
         }
     }
 
+
+    async enterRoomAsUser(request: EnterRoomRequest): Promise<RoomEnteredResponse> {        
+        return await this.transport.post<RoomEnteredResponse>("auth/enterRoom", request, null, {responseType: "json"});
+    }
 }

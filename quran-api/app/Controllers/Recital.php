@@ -37,7 +37,7 @@ class Recital extends BaseController
 
         // TODO enable this feature when surah name can be specified
         // if($recitalType === 'Surah' && !$input['surahName']) return $this->getResponse(['pleasse specify surah name'], ResponseInterface::HTTP_BAD_REQUEST);
-        $howManyTimes =  array_key_exists('howManyTimes',$input) ? $input['howManyTimes'] : 30;        
+        $howManyTimes =  array_key_exists('recitalNumberOfTimes',$input) ? $input['recitalNumberOfTimes'] : 30;        
         if($recitalType === 'Surah' && !$howManyTimes) $howManyTimes = 40;
         if($recitalType === 'Khattam') $howManyTimes = 30;
         $recitalModel = new RecitalsModel();

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
-import { PledgeStatus, RecitalDetails } from 'src/app/models/api-models';
+import { PledgeStatus, RecitalDetails, RecitalItemStatusChangeRequest } from 'src/app/models/api-models';
 import { RecitalService } from 'src/app/services/backend/recital.service';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { RecitalStat } from 'src/app/models/view-modes';
@@ -19,6 +19,15 @@ export class RecitalComponent implements OnInit {
   recitalDetails: RecitalDetails;
   recitalStats: Map<string, string>;
   recitalStatRows: RecitalStat[];
+
+  get username(): string {
+    return this.sessionService.getReciterUsername();
+  }
+
+  get inviteCode(): string {
+    return this.sessionService.getReciterDetails().inviteCode;
+  }
+
   getRecitalStatRows(): RecitalStat[] {
     let tot = 0;
     let stats: RecitalStat[] = [];
@@ -37,20 +46,18 @@ export class RecitalComponent implements OnInit {
     return stats;  
   }
 
-  constructor(private recitalService: RecitalService, private runTaskService: RunTaskService , private session: SessionService) { }
+  constructor(private recitalService: RecitalService,
+     private runTaskService: RunTaskService ,
+      private sessionService: SessionService) { }
 
 
   async ngOnInit() {
-    // REMOVE SETTIMEOUT
-    this.isLoading = true;
-    setTimeout(async () => {      
-      await this.runTaskService.runTask('fetching details', 
-        async () => {        
-          this.recitalDetails = await this.recitalService.getRecitalDetails('11111111');
-          this.isLoading = false;
-        });
-      this.calculateStats();
-    }, 2000);      
+    this.isLoading = true;    
+    await this.runTaskService.runTask('fetching details', 
+      async () => {        
+        this.recitalDetails = await this.recitalService.getRecitalDetails(this.inviteCode);
+      }).finally(() => this.isLoading = false);
+    this.calculateStats();    
   }
 
   getRowClass(row) {
@@ -63,40 +70,37 @@ export class RecitalComponent implements OnInit {
   }
 
   isMyRecital(userName: string) {
-    // TEST against the storage username
-    return userName === 'User Test';
+    return userName === this.username;
   }
 
   async pledge(itemName: string) {
     this.isLoading = true;
-    // TODO remove settimeout
-    setTimeout(async () => {
       await this.runTaskService.runTask(`pledging to recite ${itemName}`, async() => {
-        await this.recitalService.pledgeToRecite("11111111", itemName, "User Test");
+        await this.recitalService.pledgeToRecite({
+          inviteCode: this.inviteCode,
+          itemName: itemName,
+          username: this.username
+        });
         await this.changeRecitalStatus(PledgeStatus.Pledged, itemName);
-      });
-      this.isLoading = false;    
-    }, 1000)
+      }).finally(() => this.isLoading = false);
   }
 
   async complete(itemName: string){
     this.isLoading = true;
-    setTimeout(async () => {
       await this.runTaskService.runTask(`completing ${itemName}`, async() => {
-        await this.recitalService.markRecitalAsComplete("11111111", itemName, "User Test");
+        await this.recitalService.markRecitalItemAsComplete({
+          inviteCode: this.inviteCode,
+          itemName: itemName,
+          username: this.username
+        });
         await this.changeRecitalStatus(PledgeStatus.Complete, itemName);
-      });
-      this.isLoading = false;    
-  
-    }, 1000);
-    // TODO remove settimeout
+      }).finally(() => this.isLoading = false);;
   }
 
   private changeRecitalStatus(status: PledgeStatus, itemName: string) {
     this.isLoading = true; 
     const item = this.recitalDetails.recitalItems.find(x => x.itemName === itemName);
-    // fetch from storage
-    item.usersName = "User Test";
+    item.usersName = this.username;
     item.status = status;
     this.recitalDetails.recitalItems = [...this.recitalDetails.recitalItems];
     this.isLoading = false;

@@ -21,7 +21,7 @@ function validateJWTFromRequest(string $encodedToken)
     $recital->findRecitalByInviteCode($decodedToken->inviteCode);
 }
 
-function getSignedJWTForReciter(string $inviteCode)
+function getSignedJWTForReciter(string $inviteCode, string $username)
 {
     $issuedAtTime = time();
     $tokenTimeToLive = getenv('JWT_TIME_TO_LIVE');
@@ -29,6 +29,7 @@ function getSignedJWTForReciter(string $inviteCode)
     $payload = [
         'inviteCode' => $inviteCode,
         'access' => ['accept-invite'],
+        'username' => $username,
         'iat' => $issuedAtTime,
         'exp' => $tokenExpiration,
     ];

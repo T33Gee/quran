@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { RunTaskService } from 'src/app/services/run-task.service';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-accept-invite',
@@ -25,10 +26,10 @@ export class AcceptInviteComponent implements OnInit {
         this.isValidatingCode = !this.inviteCodeControl || this.inviteCodeControl.value.length !== 0 
         return timer(500).pipe(
           switchMap(async () => {
-          await this.runTaskService.runTask('validating invite code', async () => {
-            var valid = await this.api.validateInviteCode(control.value);            
+          await this.runTaskService.runTask('validating invite code', async () => {            
+            var valid = await this.api.validateInviteCode(control.value);
             if(valid) {
-              // set the users name field if the name is set in localStorage
+              if(!!this.sessionService.getReciterUsername()) this.acceptInviteForm.get('username')?.setValue(this.sessionService.getReciterUsername());
               this.inviteCodeControl.disable();
             }
             else {
@@ -45,24 +46,26 @@ export class AcceptInviteComponent implements OnInit {
   constructor(private api: AcceptInviteService,
               private fb:FormBuilder, 
               private router: Router,
-              private runTaskService: RunTaskService
-              ) { }
+              private runTaskService: RunTaskService,
+              private sessionService: SessionService
+              ) { 
+                if(!!sessionService.getReciterDetails()?.inviteCode) this.router.navigate(['recital']);
+              }
   
   ngOnInit(): void {
     this.acceptInviteForm = this.fb.group({
-      name: this.fb.control('', [Validators.required, Validators.maxLength(20), /*Validators.pattern()*/]),
-      inviteCode: this.fb.control('', [Validators.maxLength(this.INVITE_CODE_LENGTH), Validators.minLength(this.INVITE_CODE_LENGTH)], [this.inviteCodeValidator]),
-      // emailAddress: this.fb.control('')
+      username: this.fb.control('', [Validators.required, Validators.maxLength(20), /*Validators.pattern()*/]),
+      inviteCode: this.fb.control('', [Validators.maxLength(this.INVITE_CODE_LENGTH), Validators.minLength(this.INVITE_CODE_LENGTH)], [this.inviteCodeValidator])
     });
     
   }
 
-  enterRoom() {
-    // store local storage as follows
-    // roomCode
-    // enteredRooms[] // To determine if we have already been in this room we can use the same name
-    // name
-    this.router.navigate(['recital']);
+  async enterRoom() {
+    await this.runTaskService.runTask('entering', async() => {
+      const token = await this.api.enterRoomAsUser(this.acceptInviteForm.getRawValue());
+      this.sessionService.storeReciterToken(token.accessToken);
+      this.router.navigate(['recital']);
+    })    
   }
 
 }

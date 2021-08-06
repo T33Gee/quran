@@ -26,12 +26,9 @@ export class AdminListComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.isLoading = true;
     await this.runTaskService.runTask('getting list of recitals', async () => {
-      this.recitalList = await this.api.getRecitals('1');
+      this.recitalList = await this.api.getRecitals();
       this.filteredRows = this.recitalList;
-    });
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1000);
+    }).finally(()=> this.isLoading = false);
   }
 
   performSearch() {

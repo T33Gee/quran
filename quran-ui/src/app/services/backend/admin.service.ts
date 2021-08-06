@@ -1,35 +1,24 @@
 import { Injectable } from "@angular/core";
-import { AuthorizationResponse, LoginResponse, Recital, RecitalAddedResponse, RecitalType, RecitatStatus } from "src/app/models/api-models";
+import { AddRecitalRequest, AuthorizationResponse, LoginResponse, Recital, RecitalAddedResponse, RecitalType, RecitatStatus } from "src/app/models/api-models";
+import { SessionService } from "../session.service";
 import { TransportService } from './transport.service';
 
 @Injectable()
 export class AdminService {
-    constructor(private transport: TransportService) {}
+    constructor(private transport: TransportService, private sessionService: SessionService) {}
 
-    async validateLogin(username: string, password: string): Promise<LoginResponse> {
-        const response: AuthorizationResponse = {accessToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpbnZpdGVDb2RlIjoiUko2SUFHMDIiLCJhY2Nlc3MiOlsiYWNjZXB0LWludml0ZSJdLCJpYXQiOjE2MjcxNDQ3MTMsImV4cCI6MTYyNzE0ODMxM30.XrB4PtZUQC48_vKq34o-4ObTxg4-6TCjuBlpTH6o7UI"};
-        return Promise.resolve({
-            success: response.accessToken !== "",
-            menuItems: JSON.parse(atob(response.accessToken.split('.')[1])).access
-        });
+    async validateLogin(username: string, password: string): Promise<AuthorizationResponse> {
+        const response = await this.transport.post<AuthorizationResponse>('auth/login', {username: username, password: password}, null, {responseType: 'json'});
+        this.sessionService.storeAdminToken(response.accessToken);
+        return response;
     }
 
-    async addNewRecital(recitalName: string, recitalType: RecitalType, recitalNumberOfTimes = 0): Promise<RecitalAddedResponse> {
-        return Promise.resolve({
-            inviteCode: "1111111"
-        })
+    async addNewRecital(request: AddRecitalRequest): Promise<RecitalAddedResponse> {
+        return await this.transport.post('recital', request, null, {responseType: 'json'});
     }
 
-    async getRecitals(username: string): Promise<Recital[]> {
-        return Promise.resolve([...Array(1000).keys()].map(x => {
-            return {
-                    inviteCode: `1111111${x}`,
-                    recitalType: Math.random() < 0.5 ? RecitalType.Khattam :RecitalType.Surah,
-                    recitalName: `recital ${x}`,
-                    startedDate: new Date().toDateString(),  
-                    recitalStatus: Math.random() < 0.5 ? RecitatStatus.Pending: RecitatStatus.Complete
-            }
-        }));
+    async getRecitals(): Promise<Recital[]> {
+        return await this.transport.get<Recital[]>('recital');
     }
 
 
