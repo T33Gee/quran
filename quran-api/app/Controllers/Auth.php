@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use ReflectionException;
 use App\Models\RecitalsModel;
+use App\Models\SessionModel;
 use App\Models\UserModel;
 
 class Auth extends BaseController
@@ -70,7 +71,10 @@ class Auth extends BaseController
         if (!$this->validateRequest($input, $rules, $errors)) {
             return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
         }
-       return $this->getJWTForAdmin($input['username']);       
+       $token = $this->getJWTForAdmin($input['username']);       
+       
+       (new SessionModel())->storeSessionToken(json_decode($token->getJSON())->accessToken, 'Admin');
+       return $token;
     }
 
     public function enterRoom() 
@@ -86,7 +90,9 @@ class Auth extends BaseController
         $username = $input['username'];
         $inviteCode = $input['inviteCode'];
         $username = $recitalModel->getUniqueName($inviteCode, $username);
-        return $this->getJWTForReciter($inviteCode, $username);
+        $token = $this->getJWTForReciter($inviteCode, $username);
+        (new SessionModel())->storeSessionToken(json_decode($token->getJSON())->accessToken, 'Reciter');
+        return $token;
     }
 
     public function validateInviteCode() {

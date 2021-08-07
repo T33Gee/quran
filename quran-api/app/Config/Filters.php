@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Filters\JWTAdminFilter;
 use App\Filters\JWTAuthenticationFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
@@ -20,7 +21,8 @@ class Filters extends BaseConfig
 		'csrf'     => CSRF::class,
 		'toolbar'  => DebugToolbar::class,
 		'honeypot' => Honeypot::class,
-		'auth' => JWTAuthenticationFilter::class 
+		'auth' => JWTAuthenticationFilter::class,
+		'admin-auth' => JWTAdminFilter::class
 	];
 
 	/**
@@ -61,14 +63,18 @@ class Filters extends BaseConfig
 	 * @var array
 	 */
 	public $filters = [
+		'admin-auth' => [
+			'before' => [
+				// TODO enable JWT here
+				'admin-recital/*',
+				'admin-recital'
+		  ],
+		],
 		'auth' => [
 		  'before' => [
-			  // TODO enable JWT here
-			  //'recital*',
-			  //'pledge*'
+			  'pledge*',
 			  'recitals/*',
 			  'recitals'
 		],
-	  ]
-	];
+	]];
 }

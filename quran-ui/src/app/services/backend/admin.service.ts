@@ -14,11 +14,11 @@ export class AdminService {
     }
 
     async addNewRecital(request: AddRecitalRequest): Promise<RecitalAddedResponse> {
-        return await this.transport.post('recital', request, null, {responseType: 'json'});
+        return await this.transport.post('admin-recital', request, null, {responseType: 'json'});
     }
 
     async getRecitals(): Promise<Recital[]> {
-        return await this.transport.get<Recital[]>('recital');
+        return await this.transport.get<Recital[]>('admin-recital');
     }
 
 

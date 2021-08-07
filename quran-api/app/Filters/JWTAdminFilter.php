@@ -9,7 +9,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
 use Exception;
 
-class JWTAuthenticationFilter implements FilterInterface
+class JWTAdminFilter implements FilterInterface
 {
     use ResponseTrait;
 
@@ -19,7 +19,7 @@ class JWTAuthenticationFilter implements FilterInterface
         try {
             helper('jwt');
             $encodedToken = getJWTFromRequest($authenticationHeader);
-            validateJWTFromRequest($encodedToken);
+            validateAdminJwt($encodedToken);
             return $request;
 
         } catch (Exception $e) {

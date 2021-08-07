@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\RecitalsModel;
+use App\Models\SessionModel;
 use Config\Services;
 use Firebase\JWT\JWT;
 
@@ -13,12 +14,16 @@ function getJWTFromRequest($authenticationHeader): string
     return explode(' ', $authenticationHeader)[1];
 }
 
-function validateJWTFromRequest(string $encodedToken)
+function validateJWTFromRequest(string $token)
 {
-    $key = Services::getSecretKey();
-    $decodedToken = JWT::decode($encodedToken, $key, ['HS256']);
-    $recital = new RecitalsModel();
-    $recital->findRecitalByInviteCode($decodedToken->inviteCode);
+    $sessionModel = new SessionModel();
+    $sessionModel->findJwt($token, 'Reciter');
+}
+
+function validateAdminJwt(string $token) {
+    $sessionModel = new SessionModel();    
+    $sessionModel->findJwt($token, 'Admin');
+    // $sessionModel->findAdminUsername($decodedToken->username);
 }
 
 function getSignedJWTForReciter(string $inviteCode, string $username)

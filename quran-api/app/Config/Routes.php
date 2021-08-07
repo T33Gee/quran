@@ -24,9 +24,11 @@ $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 $routes->setAutoRoute(true);
 
-$routes->post('recital', 'Recital::create');// should be admin
+
+
+$routes->post('admin-recital', 'Admin::create');// should be admin
+$routes->get('admin-recital', 'Admin::getAllRecitals');
 $routes->get('recital/(:alphanum)', 'Recital::getDetails/$1');
-$routes->get('recital', 'Recital::getAllRecitals');
 $routes->post('pledge', 'Recital::pledgeToRecite'); // should be put but the params dont get set
 $routes->post('pledgeComplete', 'Recital::pledgeCompleted'); // should be put but the params dont get set
 
