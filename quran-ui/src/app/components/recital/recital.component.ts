@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from 'src/app/services/session.service';
-import { PledgeStatus, RecitalDetails, RecitalItemStatusChangeRequest } from 'src/app/models/api-models';
+import { PledgeStatus, PledgeToRecite, RecitalDetails, RecitalItemStatusChangeRequest } from 'src/app/models/api-models';
 import { RecitalService } from 'src/app/services/backend/recital.service';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { RecitalStat } from 'src/app/models/view-modes';
@@ -73,27 +73,29 @@ export class RecitalComponent implements OnInit {
     return userName === this.username;
   }
 
-  async pledge(itemName: string) {
+  async pledge(item: PledgeToRecite) {
     this.isLoading = true;
-      await this.runTaskService.runTask(`pledging to recite ${itemName}`, async() => {
+      await this.runTaskService.runTask(`pledging to recite ${item.itemName}`, async() => {
         await this.recitalService.pledgeToRecite({
+          id: item.id,
           inviteCode: this.inviteCode,
-          itemName: itemName,
+          itemName: item.itemName,
           username: this.username
         });
-        await this.changeRecitalStatus(PledgeStatus.Pledged, itemName);
+        await this.changeRecitalStatus(PledgeStatus.Pledged, item.itemName);
       }).finally(() => this.isLoading = false);
   }
 
-  async complete(itemName: string){
+  async complete(item: PledgeToRecite){
     this.isLoading = true;
-      await this.runTaskService.runTask(`completing ${itemName}`, async() => {
+      await this.runTaskService.runTask(`completing ${item.itemName}`, async() => {
         await this.recitalService.markRecitalItemAsComplete({
+          id: item.id,
           inviteCode: this.inviteCode,
-          itemName: itemName,
+          itemName: item.itemName,
           username: this.username
         });
-        await this.changeRecitalStatus(PledgeStatus.Complete, itemName);
+        await this.changeRecitalStatus(PledgeStatus.Complete, item.itemName);
       }).finally(() => this.isLoading = false);;
   }
 

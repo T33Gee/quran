@@ -26,6 +26,7 @@ export interface EnterRoomRequest{
 }
 
 export interface PledgeToRecite{
+    id: number;
     itemName: string;
     usersName?: string;
     status: PledgeStatus;
@@ -63,6 +64,7 @@ export interface RecitalAddedResponse {
 }
 
 export interface RecitalItemStatusChangeRequest {
+    id: number;
     inviteCode: string;
     itemName: string;
     username: string;

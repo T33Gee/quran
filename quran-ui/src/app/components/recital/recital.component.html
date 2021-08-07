@@ -32,10 +32,10 @@
                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                     <div *ngIf="!isMyRecital(row.usersName) || row.status === PledgeStatus.Complete">{{name}}</div>
                     <div *ngIf="isMyRecital(row.usersName) && row.status === PledgeStatus.Pledged">
-                        <button [disabled]="isLoading" (click)="complete(row.itemName)" class="btn btn-sm btn-success pledge-button">Complete</button>
+                        <button [disabled]="isLoading" (click)="complete(row)" class="btn btn-sm btn-success pledge-button">Complete</button>
                     </div>
                     <div *ngIf="!name">
-                        <button [disabled]="isLoading" (click)="pledge(row.itemName)" class="btn btn-sm btn-success pledge-button">Pledge</button>
+                        <button [disabled]="isLoading" (click)="pledge(row)" class="btn btn-sm btn-success pledge-button">Pledge</button>
                     </div>
                 </ng-template>
             </ngx-datatable-column>

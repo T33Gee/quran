@@ -72,6 +72,7 @@ class Recital extends BaseController
             $response['recitalItems'] = array();
             foreach($recitalDetails as $detail) {
                 array_push($response['recitalItems'], array(
+                    'id' => $detail->id,
                     'itemName' =>  $detail->recital_item_name,
                     'usersName' =>  $detail->recital_user_name,
                     'status' =>  $detail->recital_item_status
@@ -95,7 +96,7 @@ class Recital extends BaseController
             $recitalModel = new RecitalsModel();
             $recitalInfo = $recitalModel->findRecitalByInviteCode($input['inviteCode']);            
             $recitalDetailsModel = new RecitalDetailsModel();
-            $recitalDetailsModel->updateRecitalItemStatus($recitalInfo['id'], $input['itemName'], $oldStatus, $newStatus, $oldUsername, $newUsername);
+            $recitalDetailsModel->updateRecitalItemStatus($input['id'],$recitalInfo['id'], $input['itemName'], $oldStatus, $newStatus, $oldUsername, $newUsername);
             return $this->getResponse(
                 [
                     'message' => 'Pledge successfully updated',

@@ -31,8 +31,9 @@ class RecitalDetailsModel extends Model
         return $recitalItem;
     }
 
-    public function updateRecitalItemStatus($recitalId, $itemName, $oldStatus, $newStatus, $oldUsername, $newUsername){
+    public function updateRecitalItemStatus($recitalItemid, $recitalId, $itemName, $oldStatus, $newStatus, $oldUsername, $newUsername){
         $item = $this->findRecitalItem($recitalId, $itemName, $oldStatus, $oldUsername);    
+        if($recitalItemid !== $item['id']) throw new Exception('item not found');
         $item['recital_user_name'] = $newUsername;
         $item['recital_item_status'] = $newStatus;
         if(!$this->update($item['id'], $item)) throw new Exception('Could not update the status');
