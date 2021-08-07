@@ -4,9 +4,7 @@ namespace App\Controllers;
 
 use App\Models\RecitalsModel;
 use App\Models\RecitalDetailsModel;
-use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
-use Error;
 use Exception;
 
 class Admin extends BaseController
@@ -38,8 +36,15 @@ class Admin extends BaseController
         // TODO enable this feature when surah name can be specified
         // if($recitalType === 'Surah' && !$input['surahName']) return $this->getResponse(['pleasse specify surah name'], ResponseInterface::HTTP_BAD_REQUEST);
         $howManyTimes =  array_key_exists('recitalNumberOfTimes',$input) ? $input['recitalNumberOfTimes'] : 30;        
-        if($recitalType === 'Surah' && !$howManyTimes) $howManyTimes = 40;
-        if($recitalType === 'Khattam') $howManyTimes = 30;
+        $recitalTypePrependtext = '';
+        if($recitalType === 'Surah' && !$howManyTimes){ 
+            $howManyTimes = 40;            
+        }
+        if($recitalType === 'Khattam'){
+             $howManyTimes = 30;
+             $recitalTypePrependtext = 'Juz\'';
+        }
+        if(!$recitalTypePrependtext) $recitalTypePrependtext = 'Recital'; // TODO when surah name implemented change this
         $recitalModel = new RecitalsModel();
         $inviteCode = $this->generateRandomString();
         while($recitalModel->where('recital_invite_code', $inviteCode)->first()) {
@@ -60,10 +65,10 @@ class Admin extends BaseController
         
         $recitalDetailsModel = new RecitalDetailsModel();
         
-        $recitalDetailsData = array();
+        $recitalDetailsData = array();        
         for($i=1;$i<=$howManyTimes;$i++){
             array_push($recitalDetailsData,array(
-                'recital_item_name' => $i,
+                'recital_item_name' => $recitalTypePrependtext.' '.$i,
                 'recital_item_status' => 'NotStarted',
                 'recital_id' => $recitalId,
             ));
